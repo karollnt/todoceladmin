@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><![endif]-->
+  <title>Todocel - Admin</title>
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta name="viewport" content="width=device-width">
+  <link rel="shortcut icon" href="icon.png">
+  <link rel="stylesheet" href="css/templatemo_main.css">
+<!--
+Dashboard Template
+http://www.templatemo.com/preview/templatemo_415_dashboard
+-->
+</head>
+<body>
+  <div class="navbar navbar-inverse" role="navigation">
+      <div class="navbar-header">
+        <div class="logo"><h1>Todocel - Admin</h1></div>
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+    </div>
+    <div class="template-page-wrapper">
+      <div class="navbar-collapse collapse templatemo-sidebar">
+        <ul class="templatemo-sidebar-menu">
+          <li class="active"><a href="#"><i class="fa fa-home"></i>Inicio</a></li>
+          <li><a href="reportes.html"><i class="fa fa-cubes"></i>Reportes</a></li>
+          <li><a href="usuarios.html"><i class="fa fa-users"></i>Usuarios</a></li>
+          <li><a href="bancos.html"><i class="fa fa-university"></i>Bancos</a></li>
+          <li><a href="productos.html"><i class="fa fa-tasks"></i>Productos</a></li>
+          <li><a href="preferences.html"><i class="fa fa-cog"></i>Configuracion</a></li>
+          <li><a href="#" data-toggle="modal" data-target="#confirmModal"><i class="fa fa-sign-out"></i>Sign Out</a></li>
+        </ul>
+      </div><!--/.navbar-collapse -->
+
+      <div class="templatemo-content-wrapper">
+        <div class="templatemo-content">
+          <ol class="breadcrumb">
+            <li class="active">Inicio</li>
+            <li><a href="usuarios.html">Usuarios</a></li>
+            <li><a href="reports.html">Reportes</a></li>
+          </ol>
+          <h1>Todocel - Admin</h1>
+        </div>
+      </div>
+      <!-- Modal -->
+      <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+              <h4 class="modal-title" id="myModalLabel">Are you sure you want to sign out?</h4>
+            </div>
+            <div class="modal-footer">
+              <a href="#" class="btn btn-primary js-logout">Yes</a>
+              <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <footer class="templatemo-footer">
+        <div class="templatemo-copyright">
+          <p>Copyright &copy; 2016 Todocel</p>
+        </div>
+      </footer>
+    </div>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/md5.min.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/templatemo_script.js"></script>
+    <script>
+      $('#myTab a').click(function (e) {
+        e.preventDefault();
+        $(this).tab('show');
+      });
+    </script>
+  </body>
+</html>
