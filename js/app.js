@@ -14,8 +14,10 @@ var todocel = (function () {
     $(document)
       .on('submit','js-signin-form',todocel.users.login)
       .on('submit','.js-crear-banco',crearBanco)
+      .on('submit','.js-crear-producto',crearProducto)
       .on('click','.js-logout',logout)
-      .on('click','.js-borrar-banco',borrarBanco);
+      .on('click','.js-borrar-banco',borrarBanco)
+      .on('click','.js-borrar-producto',borrarProducto);
   };
   return {
     init: init,
@@ -143,6 +145,88 @@ todocel.users = (function () {
     login: login,
     logout: logout,
     listarUsuarios: listarUsuarios
+  };
+})();
+
+todocel.productos = (function () {
+  var listarProductos = function () {
+    var $tabla = $('.js-listar-bancos tbody');
+    $tabla.html('');
+    var ajx = $.ajax({
+      type: 'post',
+      url: waooserver+'/productos/listarProductos',
+      dataType: 'json',
+      data: ''
+    });
+    ajx.done(function (resp) {
+      var html  = '';
+      if (resp.productos) {
+        $.each(resp.productos,function (i,v) {
+          html += '<tr>'
+            +'<td>'+(i+1)+'</td>'
+            +'<td>'+v.nombre+'</td>'
+            +'<td>'+v.precio+'</td>'
+            +'<td>'+v.cantidad+'</td>'
+            +'<td><a href="#" class="btn btn-link js-modificar-producto" data-id="'+v.id+'"><span class="fa fa-pencil"></span></a></td>'
+            +'<td><a href="#" class="btn btn-link js-borrar-producto" data-id="'+v.id+'"><span class="fa fa-trash-o"></span></a></td>'
+          +'</tr>';
+        });
+      }
+      else {
+        html = '<tr><td colspan="6">No hay registros</td></tr>';
+      }
+      $tabla.append(html);
+    })
+    .fail(function (e) {
+      alert('Error: ' + e.message);
+    });
+  };
+
+  var crearProducto = function (ev) {
+    if(ev) ev.preventDefault();
+    var formData = new FormData( $(".js-crear-producto")[0] );
+    var ajx = $.ajax({
+      type: 'post',
+      url: waooserver+'/productos/crearProducto',
+      dataType: 'json',
+      data: formData,
+      async : false,
+  		cache : false,
+  		contentType : false,
+  		processData : false
+    });
+    ajx.done(function (resp) {
+      alert(resp.msg);
+      $form[0].reset();
+      listarProductos();
+    })
+    .fail(function (e) {
+      alert('Error: ' + e.message);
+    });
+  };
+
+  var borrarProducto = function (ev) {
+    if(ev) ev.preventDefault();
+    var id = $(ev.currentTarget).data('id');
+    var ajx = $.ajax({
+      type: 'post',
+      url: waooserver+'/productos/borrarProducto',
+      dataType: 'json',
+      data: {id:id}
+    });
+    ajx.done(function (resp) {
+      alert(resp.msg);
+      listarProductos();
+    })
+    .fail(function (e) {
+      alert('Error: ' + e.message);
+    });
+  };
+
+  return {
+    listarProductos: listarProductos,
+    crearProducto: crearProducto,
+    borrarProducto: borrarProducto
   };
 })();
 
