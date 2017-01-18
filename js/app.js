@@ -13,11 +13,13 @@ var todocel = (function () {
   var initEvents = function () {
     $(document)
       .on('submit','js-signin-form',todocel.users.login)
-      .on('submit','.js-crear-banco',crearBanco)
-      .on('submit','.js-crear-producto',crearProducto)
-      .on('click','.js-logout',logout)
-      .on('click','.js-borrar-banco',borrarBanco)
-      .on('click','.js-borrar-producto',borrarProducto);
+      .on('submit','.js-crear-banco',todocel.bancos.crearBanco)
+      .on('submit','.js-crear-producto',todocel.productos.crearProducto)
+      .on('submit','.js-crear-usuario',todocel.users.crearUsuario)
+      .on('click','.js-logout',todocel.users.logout)
+      .on('click','.js-borrar-banco',todocel.bancos.borrarBanco)
+      .on('click','.js-borrar-usuario',todocel.users.borrarUsuario)
+      .on('click','.js-borrar-producto',todocel.productos.borrarProducto);
   };
   return {
     init: init,
@@ -28,11 +30,11 @@ var todocel = (function () {
 todocel.users = (function () {
   var init = function () {
     usuario = window.localStorage.getItem('usuario');
-    if(usuario==null || usuario=='' || usuario=='null') {
+    /*if(usuario==null || usuario=='' || usuario=='null') {
       if(location.pathname.split('/').slice(-1)[0] != 'sign-in.html') {
         window.location.href = 'sign-in.html';
       }
-    }
+    }*/
   };
 
   var login = function (ev) {
@@ -44,7 +46,7 @@ todocel.users = (function () {
       jsonForm.clave = md5(jsonForm.clave);
       var ajx = $.ajax({
         type: 'post',
-        url: waooserver+'/sesiones/loginAdmin',
+        url: todocel.config.backend+'/sesiones/loginAdmin',
         dataType: 'json',
         data: jsonForm
       });
@@ -74,7 +76,7 @@ todocel.users = (function () {
     $tabla.html('');
     var ajx = $.ajax({
       type: 'post',
-      url: waooserver+'/usuarios/listarUsuarios',
+      url: todocel.config.backend+'/usuarios/listarUsuarios',
       dataType: 'json',
       data: {col:'estado',val:1}
     });
@@ -108,7 +110,7 @@ todocel.users = (function () {
     var datos = $form.serialize();
     var ajx = $.ajax({
       type: 'post',
-      url: waooserver+'/usuarios/crearUsuario',
+      url: todocel.config.backend+'/usuarios/crearUsuario',
       dataType: 'json',
       data: datos
     });
@@ -127,7 +129,7 @@ todocel.users = (function () {
     var id = $(ev.currentTarget).data('id');
     var ajx = $.ajax({
       type: 'post',
-      url: waooserver+'/usuarios/borrarUsuario',
+      url: todocel.config.backend+'/usuarios/borrarUsuario',
       dataType: 'json',
       data: {id:id}
     });
@@ -144,17 +146,19 @@ todocel.users = (function () {
     init: init,
     login: login,
     logout: logout,
-    listarUsuarios: listarUsuarios
+    listarUsuarios: listarUsuarios,
+    crearUsuario: crearUsuario,
+    borrarUsuario: borrarUsuario
   };
 })();
 
 todocel.productos = (function () {
   var listarProductos = function () {
-    var $tabla = $('.js-listar-bancos tbody');
+    var $tabla = $('.js-listar-productos tbody');
     $tabla.html('');
     var ajx = $.ajax({
       type: 'post',
-      url: waooserver+'/productos/listarProductos',
+      url: todocel.config.backend+'/productos/listarProductos',
       dataType: 'json',
       data: ''
     });
@@ -187,17 +191,16 @@ todocel.productos = (function () {
     var formData = new FormData( $(".js-crear-producto")[0] );
     var ajx = $.ajax({
       type: 'post',
-      url: waooserver+'/productos/crearProducto',
+      url: todocel.config.backend+'/productos/crearProducto',
       dataType: 'json',
       data: formData,
       async : false,
-  		cache : false,
-  		contentType : false,
-  		processData : false
+      cache : false,
+      contentType : false,
+      processData : false
     });
     ajx.done(function (resp) {
       alert(resp.msg);
-      $form[0].reset();
       listarProductos();
     })
     .fail(function (e) {
@@ -210,7 +213,7 @@ todocel.productos = (function () {
     var id = $(ev.currentTarget).data('id');
     var ajx = $.ajax({
       type: 'post',
-      url: waooserver+'/productos/borrarProducto',
+      url: todocel.config.backend+'/productos/borrarProducto',
       dataType: 'json',
       data: {id:id}
     });
@@ -236,7 +239,7 @@ todocel.bancos = (function () {
     $tabla.html('');
     var ajx = $.ajax({
       type: 'post',
-      url: waooserver+'/bancos/listaBancos',
+      url: todocel.config.backend+'/bancos/listaBancos',
       dataType: 'json',
       data: ''
     });
@@ -267,7 +270,7 @@ todocel.bancos = (function () {
     var datos = $form.serialize();
     var ajx = $.ajax({
       type: 'post',
-      url: waooserver+'/bancos/crearBanco',
+      url: todocel.config.backend+'/bancos/crearBanco',
       dataType: 'json',
       data: datos
     });
@@ -286,7 +289,7 @@ todocel.bancos = (function () {
     var id = $(ev.currentTarget).data('id');
     var ajx = $.ajax({
       type: 'post',
-      url: waooserver+'/usuarios/borrarBanco',
+      url: todocel.config.backend+'/usuarios/borrarBanco',
       dataType: 'json',
       data: {id:id}
     });

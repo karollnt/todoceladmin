@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><![endif]-->
+  <title>Todocel - Admin - Usuarios</title>
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" href="css/templatemo_main.css">
+<!--
+Dashboard Template
+http://www.templatemo.com/preview/templatemo_415_dashboard
+-->
+</head>
+<body>
+  <div id="main-wrapper">
+    <div class="navbar navbar-inverse" role="navigation">
+      <div class="navbar-header">
+        <div class="logo"><h1>Todocel - Admin - Usuarios</h1></div>
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+    </div>
+    <div class="template-page-wrapper">
+      <div class="navbar-collapse collapse templatemo-sidebar">
+        <ul class="templatemo-sidebar-menu">
+          <li><a href="index.html"><i class="fa fa-home"></i>Inicio</a></li>
+          <li class="active"><a href="usuarios.html"><i class="fa fa-users"></i>Usuarios</a></li>
+          <li><a href="bancos.html"><i class="fa fa-university"></i>Bancos</a></li>
+          <li><a href="productos.html"><i class="fa fa-tasks"></i>Productos</a></li>
+          <li><a href="preferences.html"><i class="fa fa-cog"></i>Configuracion</a></li>
+          <li><a href="#" data-toggle="modal" data-target="#confirmModal"><i class="fa fa-sign-out"></i>Sign Out</a></li>
+        </ul>
+      </div><!--/.navbar-collapse -->
+
+      <div class="templatemo-content-wrapper">
+        <div class="templatemo-content">
+          <ol class="breadcrumb">
+            <li><a href="index.html">Inicio</a></li>
+            <li class="active">Usuarios</li>
+            <li><a href="reports.html">Reportes</a></li>
+          </ol>
+          <h1>Todocel - Admin usuarios</h1>
+
+          <div class="row">
+            <div class="col-md-12">
+              <ul id="tabs" class="nav nav-tabs">
+                <li class="active"><a href="#crearusuario" data-toggle="tab">Crear</a></li>
+                <li><a href="#usuarios" data-toggle="tab">Listado</a></li>
+              </ul>
+              <div class="tab-content">
+                <div id="crearusuario" class="tab-pane fade in active">
+                  <h3 class="margin-bottom-15">Crear usuario</h3>
+                  <form class="js-crear-usuario" action="" method="post">
+                    <div class="row margin-bottom-15">
+                      <div class="col-md-6">
+                        <label for="nickname" class="control-label">Nickname</label>
+                        <input type="text" class="form-control" id="nickname" name="nickname" value="">
+                      </div>
+                      <div class="col-md-6">
+                        <label for="clave" class="control-label">Clave</label>
+                        <input type="password" class="form-control" id="clave" name="clave" value="">
+                      </div>
+                    </div>
+                    <div class="row margin-bottom-15">
+                      <div class="col-md-6">
+                        <label for="email" class="control-label">Email</label>
+                        <input type="text" class="form-control" id="email" name="email" value="">
+                      </div>
+                      <div class="col-md-6">
+                        <label for="tipo" class="control-label">Tipo</label>
+                        <select class="form-control" id="tipo" name="tipo">
+                          <option value="1">Usuario</option>
+                          <option value="2">Asistente</option>
+                          <option value="3">Admin</option>
+                          <option value="4">Punto recarga</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="row margin-bottom-15">
+                      <div class="col-md-6">
+                        <label for="nombre" class="control-label">Nombres</label>
+                        <input type="text" class="form-control" id="nombre" name="nombre" value="">
+                      </div>
+                      <div class="col-md-6">
+                        <label for="apellido" class="control-label">Apellidos</label>
+                        <input type="text" class="form-control" id="apellido" name="apellido" value="">
+                      </div>
+                    </div>
+                    <div class="row margin-bottom-15">
+                      <div class="col-md-6">
+                        <label for="celular" class="control-label">Celular</label>
+                        <input type="text" class="form-control" id="celular" name="celular" value="">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <input type="submit" class="btn btn-primary" value="Enviar">
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                <div id="usuarios" class="tab-pane fade">
+                  <div class="margin-bottom-15"></div>
+                  <div class="input-group margin-bottom-15">
+                    <span class="input-group-addon">Fitrar</span>
+                    <input class="js-filter-users" type="text" class="form-control" placeholder="Escribe aqui...">
+                  </div>
+                  <div class="table-responsive">
+                    <table class="table table-striped table-hover table-bordered js-listar-usuarios">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>Username</th>
+                          <th>Nombre</th>
+                          <th>Email</th>
+                          <th>Tipo</th>
+                          <th>Delete</th>
+                        </tr>
+                      </thead>
+                      <tbody class="searchable"></tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal -->
+      <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+              <h4 class="modal-title" id="myModalLabel">Are you sure you want to sign out?</h4>
+            </div>
+            <div class="modal-footer">
+              <a href="#" class="btn btn-primary js-logout">Yes</a>
+              <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer class="templatemo-footer">
+        <div class="templatemo-copyright">
+          <p>Copyright &copy; 2016 Todocel</p>
+        </div>
+      </footer>
+    </div>
+  </div>
+  <script src="js/jquery.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/Chart.min.js"></script>
+  <script src="js/md5.min.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/templatemo_script.js"></script>
+  <script>
+    $('#tabs').tab();
+    todocel.users.listarUsuarios();
+  </script>
+</body>
+</html>

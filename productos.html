@@ -49,13 +49,13 @@ http://www.templatemo.com/preview/templatemo_415_dashboard
           <div class="row">
             <div class="col-md-12">
               <ul id="tabs" class="nav nav-tabs">
-                <li class="active"><a href="#crearmateria" data-toggle="tab">Crear</a></li>
-                <li><a href="#materias" data-toggle="tab">Listado</a></li>
+                <li class="active"><a href="#crearProducto" data-toggle="tab">Crear</a></li>
+                <li><a href="#productos" data-toggle="tab">Listado</a></li>
               </ul>
               <div class="tab-content">
-                <div id="crearmateria" class="tab-pane fade in active">
+                <div id="crearProducto" class="tab-pane fade in active">
                   <h3 class="margin-bottom-15">Crear Producto</h3>
-                  <form class="js-crear-producto" action="" method="post">
+                  <form class="js-crear-producto" action="" method="post" enctype="multipart/form-data">
                     <div class="row margin-bottom-15">
                       <div class="col-md-6">
                         <label for="nombre" class="control-label">Nombre</label>
@@ -93,7 +93,7 @@ http://www.templatemo.com/preview/templatemo_415_dashboard
                     </div>
                   </form>
                 </div>
-                <div class="tab-pane fade">
+                <div id="productos" class="tab-pane fade">
                   <div class="table-responsive">
                     <table class="table table-striped table-hover table-bordered js-listar-productos">
                       <thead>
@@ -147,7 +147,7 @@ http://www.templatemo.com/preview/templatemo_415_dashboard
   <script src="js/templatemo_script.js"></script>
   <script>
     $('#tabs').tab();
-    todocel.listarProductos();
+    todocel.productos.listarProductos();
   </script>
 </body>
 </html>
