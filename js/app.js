@@ -19,6 +19,7 @@ var todocel = (function () {
       .on('click','.js-logout',todocel.users.logout)
       .on('click','.js-borrar-banco',todocel.bancos.borrarBanco)
       .on('click','.js-borrar-usuario',todocel.users.borrarUsuario)
+      .on('click','.js-modificar-producto',todocel.productos.modificacionProducto)
       .on('click','.js-borrar-producto',todocel.productos.borrarProducto);
   };
   return {
@@ -30,11 +31,11 @@ var todocel = (function () {
 todocel.users = (function () {
   var init = function () {
     usuario = window.localStorage.getItem('usuario');
-    /*if(usuario==null || usuario=='' || usuario=='null') {
+    if(usuario==null || usuario=='' || usuario=='null') {
       if(location.pathname.split('/').slice(-1)[0] != 'sign-in.html') {
         window.location.href = 'sign-in.html';
       }
-    }*/
+    }
   };
 
   var login = function (ev) {
@@ -186,9 +187,57 @@ todocel.productos = (function () {
     });
   };
 
+  var modificacionProducto = function (ev) {
+    console.log(ev);
+    if(ev) ev.preventDefault();
+    var id = $(ev.currentTarget).data('id');
+    var ajx = $.ajax({
+      type: 'post',
+      url: todocel.config.backend+'/productos/detallesProducto',
+      dataType: 'json',
+      data: {id: id}
+    });
+    ajx.done(function (resp) {
+      var $form = $('.js-actualizar-producto');
+      $form.find('input[name=id]').val(resp.id);
+      $form.find('input[name=nombre]').val(resp.nombre);
+      $form.find('input[name=descripcion]').val(resp.descripcion);
+      $form.find('input[name=precio]').val(resp.precio);
+      $form.find('input[name=cantidad]').val(resp.cantidad);
+      $form.off('submit').on('submit',modificarProducto);
+      $('.js-edit-modal').modal('show');
+    })
+    .fail(function (e) {
+      alert('Error: ' + e.message);
+    });
+  };
+
+  var modificarProducto = function (ev) {
+    if(ev) ev.preventDefault();
+    var formData = new FormData(ev.target);
+    var ajx = $.ajax({
+      type: 'post',
+      url: todocel.config.backend+'/productos/modificarProducto',
+      dataType: 'json',
+      data: formData,
+      async : false,
+      cache : false,
+      contentType : false,
+      processData : false
+    });
+    ajx.done(function (resp) {
+      alert(resp.msg);
+      $('.js-edit-modal').modal('hide');
+      listarProductos();
+    })
+    .fail(function (e) {
+      alert('Error: ' + e.message);
+    });
+  };
+
   var crearProducto = function (ev) {
     if(ev) ev.preventDefault();
-    var formData = new FormData( $(".js-crear-producto")[0] );
+    var formData = new FormData( $('.js-crear-producto')[0] );
     var ajx = $.ajax({
       type: 'post',
       url: todocel.config.backend+'/productos/crearProducto',
@@ -229,7 +278,8 @@ todocel.productos = (function () {
   return {
     listarProductos: listarProductos,
     crearProducto: crearProducto,
-    borrarProducto: borrarProducto
+    borrarProducto: borrarProducto,
+    modificacionProducto: modificacionProducto
   };
 })();
 
