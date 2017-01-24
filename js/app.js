@@ -7,7 +7,9 @@ var todocel = (function () {
 
   var init = function () {
     initEvents();
+    todocel.handlebarsHelpers.init();
     todocel.users.init();
+    $('.js-datepicker').Zebra_DatePicker({direction:0});
   };
 
   var initEvents = function () {
@@ -20,7 +22,9 @@ var todocel = (function () {
       .on('click','.js-borrar-banco',todocel.bancos.borrarBanco)
       .on('click','.js-borrar-usuario',todocel.users.borrarUsuario)
       .on('click','.js-modificar-producto',todocel.productos.modificacionProducto)
-      .on('click','.js-borrar-producto',todocel.productos.borrarProducto);
+      .on('click','.js-borrar-producto',todocel.productos.borrarProducto)
+      .on('click','.js-buscar-ventas',todocel.ventas.buscarVentas)
+      .on('click','.js-ver-detalle',todocel.ventas.detalleVenta);
   };
   return {
     init: init,
@@ -188,7 +192,6 @@ todocel.productos = (function () {
   };
 
   var modificacionProducto = function (ev) {
-    console.log(ev);
     if(ev) ev.preventDefault();
     var id = $(ev.currentTarget).data('id');
     var ajx = $.ajax({
@@ -359,6 +362,89 @@ todocel.bancos = (function () {
   };
 })();
 
+todocel.ventas = (function () {
+  var init = function () {
+    buscarVentas();
+  };
+
+  var buscarVentas = function (ev) {
+    ev.preventDefault();
+    var desde = ($('.js-fecha-desde').val()) + ' 00:00:00';
+    var hasta = ($('.js-fecha-hasta').val()) + ' 23:59:59';
+    listarVentasPeriodo(desde,hasta);
+  };
+
+  var listarVentasPeriodo = function (desde,hasta) {
+    var $tabla = $('.js-listar-ventas tbody');
+    $tabla.html('');
+    var ajx = $.ajax({
+      url: todocel.config.backend+'/ventas/listarVentasPeriodo',
+      type: 'post',
+      dataType: 'json',
+      data: {desde: desde, hasta: hasta}
+    });
+    ajx.done(function (resp) {
+      var html  = '', total = 0;
+      if(resp.msg.orders){
+        $.each(resp.msg.orders,function (i,v) {
+          total += v.valor;
+          html += '<tr>'
+            +'<td>'+(i+1)+'</td>'
+            +'<td>'+v.fecha+'</td>'
+            +'<td>'+v.nombre+'</td>'
+            +'<td class="text-right">$'+v.valor+'</td>'
+            +'<td><a href="#" class="btn btn-link js-ver-detalle" data-id="'+(v.id)+'"><span class="fa fa-search"></span></a></td>'
+          +'</tr>';
+        });
+        html += '<tr><td colspan="3">Total</td><td class="text-right">$'+total+'</td><td></td></tr>';
+      }
+      else {
+        html = '<tr><td colspan="5">No hay registros</td></tr>';
+      }
+      $tabla.append(html);
+    });
+  };
+
+  var detalleVenta = function (ev) {
+    ev.preventDefault();
+    var element = ev.currentTarget;
+    var orderId = element.dataset.id;
+    var $orderContainer = $('.js-detalle-venta');
+    $orderContainer.html('');
+    var ajx = $.ajax({
+      url: todocel.config.backend+'/ventas/detalleOrden',
+      type: 'post',
+      dataType: 'json',
+      data: {id: orderId}
+    });
+    ajx.done(function (resp) {
+      var html = '';
+      var source, template;
+      if (resp.status == 200) {
+        html = '';
+        source = $('#orderDetail').html();
+        template = Handlebars.compile(source);
+        html = template(resp.msg);
+        $orderContainer.html(html);
+        $('.js-detalle-modal').modal('show');
+      }
+      else {
+        alert(detail);
+      }
+    })
+    .fail(function (err) {
+      console.log(err);
+    });
+  };
+
+  return {
+    init: init,
+    listarVentasPeriodo: listarVentasPeriodo,
+    detalleVenta: detalleVenta,
+    buscarVentas: buscarVentas
+  };
+})();
+
 todocel.utils = (function () {
   var formToJSONString = function (form) {
     var obj = {};
@@ -372,6 +458,25 @@ todocel.utils = (function () {
       }
     }
     return JSON.stringify( obj );
+  };
+})();
+
+todocel.handlebarsHelpers = (function () {
+  var init = function () {
+    Handlebars.registerHelper('math', function(lvalue, operator, rvalue, options) {
+      lvalue = parseFloat(lvalue);
+      rvalue = parseFloat(rvalue);
+      return {
+        '+': lvalue + rvalue,
+        '-': lvalue - rvalue,
+        '*': lvalue * rvalue,
+        '/': lvalue / rvalue,
+        '%': lvalue % rvalue
+      }[operator];
+    });
+  };
+  return {
+    init: init
   };
 })();
 

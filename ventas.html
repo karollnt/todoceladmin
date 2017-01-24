@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><![endif]-->
+  <title>Todocel - Admin - Ventas</title>
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" href="css/templatemo_main.css">
+  <link rel="stylesheet" href="css/datepicker.css">
+<!--
+Dashboard Template
+http://www.templatemo.com/preview/templatemo_415_dashboard
+-->
+</head>
+<body>
+  <div id="main-wrapper">
+    <div class="navbar navbar-inverse" role="navigation">
+      <div class="navbar-header">
+        <div class="logo"><h1>Todocel - Admin - Ventas</h1></div>
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+    </div>
+    <div class="template-page-wrapper">
+      <div class="navbar-collapse collapse templatemo-sidebar">
+        <ul class="templatemo-sidebar-menu">
+          <li><a href="index.html"><i class="fa fa-home"></i>Inicio</a></li>
+          <li><a href="bancos.html"><i class="fa fa-university"></i>Usuarios</a></li>
+          <li><a href="bancos.html"><i class="fa fa-university"></i>Bancos</a></li>
+          <li><a href="productos.html"><i class="fa fa-tasks"></i>Productos</a></li>
+          <li class="active"><a href="ventas.html"><i class="fa fa-users"></i>Ventas</a></li>
+          <li><a href="preferences.html"><i class="fa fa-cog"></i>Configuracion</a></li>
+          <li><a href="#" data-toggle="modal" data-target="#confirmModal"><i class="fa fa-sign-out"></i>Sign Out</a></li>
+        </ul>
+      </div><!--/.navbar-collapse -->
+
+      <div class="templatemo-content-wrapper">
+        <div class="templatemo-content">
+          <ol class="breadcrumb">
+            <li><a href="index.html">Inicio</a></li>
+            <li class="active">Ventas</li>
+            <li><a href="reports.html">Reportes</a></li>
+          </ol>
+          <h1>Todocel - Admin ventas</h1>
+
+          <div class="row">
+            <div class="col-md-12">
+              <div class="margin-bottom-15">
+                <input type="text" name="fecha1" class="js-datepicker js-fecha-desde" value="" placeholder="Fecha desde">
+                <input type="text" name="fecha1" class="js-datepicker js-fecha-hasta" value="" placeholder="Fecha hasta">
+                <button type="button" class="btn btn-primary btn-sm js-buscar-ventas" name="button">Buscar</button>
+              </div>
+              <div class="input-group margin-bottom-15">
+                <span class="input-group-addon">Fitrar</span>
+                <input class="js-filter-users" type="text" class="form-control" placeholder="Escribe aqui...">
+              </div>
+              <div class="table-responsive">
+                <table class="table table-striped table-hover table-bordered js-listar-ventas">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Fecha</th>
+                      <th>Nombre</th>
+                      <th>Valor</th>
+                      <th>Detalle</th>
+                    </tr>
+                  </thead>
+                  <tbody class="searchable"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal -->
+      <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+              <h4 class="modal-title" id="myModalLabel">Are you sure you want to sign out?</h4>
+            </div>
+            <div class="modal-footer">
+              <a href="#" class="btn btn-primary js-logout">Yes</a>
+              <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal fade js-detalle-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+              <h4 class="modal-title">Detalle de venta</h4>
+            </div>
+            <div class="modal-body js-detalle-venta"></div>
+          </div>
+        </div>
+      </div>
+
+      <footer class="templatemo-footer">
+        <div class="templatemo-copyright">
+          <p>Copyright &copy; 2016 Todocel</p>
+        </div>
+      </footer>
+    </div>
+  </div>
+  <script src="js/jquery.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/Chart.min.js"></script>
+  <script src="js/md5.min.js"></script>
+  <script src="js/handlebars.min.js"></script>
+  <script src="js/datepicker.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/templatemo_script.js"></script>
+  <script>
+    $('#tabs').tab();
+    var today = new Date();
+    today = today.toISOString().substring(0, 10);
+    $('.js-fecha-desde').val(today);
+    $('.js-fecha-hasta').val(today);
+    todocel.ventas.listarVentasPeriodo(today+' 00:00:00',today+' 23:59:59');
+  </script>
+
+  <script id="orderDetail" type="text/x-handlebars-template">
+    <h4>Orden {{idVenta}}</h4>
+    <p>
+      Fecha: {{fecha}}<br>
+      Valor: ${{valor}}
+    </p>
+    <div class="margin-bottom-15 table-responsive">
+      <table class="table table-bordered table-condensed">
+        <thead>
+          <tr>
+            <th>Descripcion</th>
+            <th>Cantidad</th>
+            <th>Valor unitario</th>
+            <th>Valor total</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each productos}}
+            <tr>
+              <td>{{producto.nombre}}</td>
+              <td class="text-right">{{producto.cantidad}}</td>
+              <td class="text-right">${{producto.valor}}</td>
+              <td class="text-right">${{math producto.valor '*' producto.cantidad}}</td>
+            </tr>
+          {{/each}}
+          <tr>
+            <td colspan="3">Total</td>
+            <td class="text-right">${{valor}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </script>
+</body>
+</html>
