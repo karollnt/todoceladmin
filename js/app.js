@@ -1,7 +1,7 @@
 var todocel = (function () {
   var config = {
     $document: $(document),
-    backend: 'http://todocel.herokuapp.com',
+    backend: 'https://todocel.herokuapp.com',
     user: window.localStorage.getItem('nickname')
   };
 
