@@ -1,7 +1,7 @@
 var todocel = (function () {
   var config = {
     $document: $(document),
-    backend: 'http://localhost/TodoCel',
+    backend: 'http://todocel.herokuapp.com',
     user: window.localStorage.getItem('nickname')
   };
 
@@ -36,9 +36,17 @@ todocel.users = (function () {
   var init = function () {
     usuario = window.localStorage.getItem('usuario');
     if(usuario==null || usuario=='' || usuario=='null') {
+      $.ajaxSetup({
+        headers: { 'Authorization': "" }
+      });
       if(location.pathname.split('/').slice(-1)[0] != 'sign-in.html') {
         window.location.href = 'sign-in.html';
       }
+    }
+    else {
+      $.ajaxSetup({
+        headers: { 'Authorization': "Basic M1Jnc2RldlByZjo0ZERTY3M4b2xUZg==" }
+      });
     }
   };
 
@@ -369,8 +377,8 @@ todocel.ventas = (function () {
 
   var buscarVentas = function (ev) {
     ev.preventDefault();
-    var desde = ($('.js-fecha-desde').val()) + ' 00:00:00';
-    var hasta = ($('.js-fecha-hasta').val()) + ' 23:59:59';
+    var desde = $('.js-fecha-desde').val();
+    var hasta = $('.js-fecha-hasta').val();
     listarVentasPeriodo(desde,hasta);
   };
 
