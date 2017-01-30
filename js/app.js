@@ -14,7 +14,7 @@ var todocel = (function () {
 
   var initEvents = function () {
     $(document)
-      .on('submit','js-signin-form',todocel.users.login)
+      .on('submit','.js-signin-form',todocel.users.login)
       .on('submit','.js-crear-banco',todocel.bancos.crearBanco)
       .on('submit','.js-crear-producto',todocel.productos.crearProducto)
       .on('submit','.js-crear-usuario',todocel.users.crearUsuario)
@@ -36,17 +36,9 @@ todocel.users = (function () {
   var init = function () {
     usuario = window.localStorage.getItem('usuario');
     if(usuario==null || usuario=='' || usuario=='null') {
-      $.ajaxSetup({
-        headers: { 'Authorization': "" }
-      });
       if(location.pathname.split('/').slice(-1)[0] != 'sign-in.html') {
         window.location.href = 'sign-in.html';
       }
-    }
-    else {
-      $.ajaxSetup({
-        headers: { 'Authorization': "Basic M1Jnc2RldlByZjo0ZERTY3M4b2xUZg==" }
-      });
     }
   };
 
@@ -466,6 +458,10 @@ todocel.utils = (function () {
       }
     }
     return JSON.stringify( obj );
+  };
+
+  return {
+    formToJSONString: formToJSONString
   };
 })();
 
