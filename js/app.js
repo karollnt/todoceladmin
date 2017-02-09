@@ -95,7 +95,7 @@ todocel.users = (function () {
             +'<td>'+v.nombre+'</td>'
             +'<td>'+v.email+'</td>'
             +'<td>'+v.tipo+'</td>'
-            +'<td><a href="#" class="btn btn-link js-borrar-usuario" data-id="'+v.id+'"><span class="fa fa-trash-o"></span></a></td>'
+            +'<td>'+(todocel.config.user == 'knavas10' ? '<a href="#" class="btn btn-link js-borrar-usuario" data-id="'+v.id+'"><span class="fa fa-trash-o"></span></a>':'')+'</td>'
           +'</tr>';
         });
       }
