@@ -83,11 +83,17 @@ http://www.templatemo.com/preview/templatemo_415_dashboard
                     </div>
                     <div class="row margin-bottom-15">
                       <div class="col-md-6">
+                        <label for="nombre" class="control-label">Categor&iacute;a</label>
+                        <select class="form-control js-category" name="categoria"></select>
+                      </div>
+                    </div>
+                    <div class="row margin-bottom-15">
+                      <div class="col-md-6">
                         <label for="nombre" class="control-label">Imagen (gif|jpg|png|jpeg|bmp)</label>
                         <input type="file" class="form-control" name="archivo" value="">
                       </div>
                     </div>
-                    <div class="row">
+                    <div class="row margin-bottom-15">
                       <div class="col-md-6">
                         <input type="submit" class="btn btn-primary" value="Enviar">
                       </div>
@@ -95,7 +101,7 @@ http://www.templatemo.com/preview/templatemo_415_dashboard
                   </form>
                 </div>
                 <div id="productos" class="tab-pane fade">
-                  <div class="table-responsive">
+                  <div class="table-responsive margin-bottom-15">
                     <table class="table table-striped table-hover table-bordered js-listar-productos">
                       <thead>
                         <tr>
@@ -168,6 +174,12 @@ http://www.templatemo.com/preview/templatemo_415_dashboard
                 </div>
                 <div class="row margin-bottom-15">
                   <div class="col-md-6">
+                    <label for="nombre" class="control-label">Categor&iacute;a</label>
+                    <select class="form-control js-category js-category-update" name="categoria"></select>
+                  </div>
+                </div>
+                <div class="row margin-bottom-15">
+                  <div class="col-md-6">
                     <label for="nombre" class="control-label">Imagen (gif|jpg|png|jpeg|bmp)</label>
                     <input type="file" class="form-control" name="archivo" value="">
                   </div>
@@ -202,6 +214,7 @@ http://www.templatemo.com/preview/templatemo_415_dashboard
   <script>
     $('#tabs').tab();
     todocel.productos.listarProductos();
+    todocel.productos.listarCategoriasEnSelect('.js-category');
   </script>
 </body>
 </html>
