@@ -17,12 +17,14 @@ var todocel = (function () {
       .on('submit','.js-signin-form',todocel.users.login)
       .on('submit','.js-crear-banco',todocel.bancos.crearBanco)
       .on('submit','.js-crear-producto',todocel.productos.crearProducto)
+      .on('submit','.js-crear-categoria',todocel.productos.crearCategoria)
       .on('submit','.js-crear-usuario',todocel.users.crearUsuario)
       .on('click','.js-logout',todocel.users.logout)
       .on('click','.js-borrar-banco',todocel.bancos.borrarBanco)
       .on('click','.js-borrar-usuario',todocel.users.borrarUsuario)
       .on('click','.js-modificar-producto',todocel.productos.modificacionProducto)
       .on('click','.js-borrar-producto',todocel.productos.borrarProducto)
+      .on('click','.js-borrar-categoria',todocel.productos.borrarCategoria)
       .on('click','.js-buscar-ventas',todocel.ventas.buscarVentas)
       .on('click','.js-ver-detalle',todocel.ventas.detalleVenta);
   };
@@ -302,12 +304,79 @@ todocel.productos = (function () {
     });
   };
 
+  var listarCategorias = function () {
+    var $tabla = $('.js-listar-categorias tbody');
+    $tabla.html('');
+    var ajx = $.ajax({
+      url: todocel.config.backend+'/categorias/listarCategorias',
+      type: 'post',
+      dataType: 'json',
+      data: ''
+    });
+    ajx.done(function (data) {
+      var html = '';
+      if(data.categorias){
+        $.each(data.categorias,function (i,v) {
+          html += '<tr>'
+            +'<td>'+(i+1)+'</td>'
+            +'<td>'+v.nombre+'</td>'
+            +'<td><a href="#" class="btn btn-link js-borrar-categoria" data-id="'+v.id+'"><span class="fa fa-trash-o"></span></a></td>'
+          +'</tr>';
+        });
+      }
+      else {
+        html = '<tr><td colspan="3">No hay registros</td></tr>';
+      }
+      $tabla.append(html);
+    });
+  };
+
+  var crearCategoria = function (ev) {
+    if(ev) ev.preventDefault();
+    var $form = $('.js-crear-categoria');
+    var datos = $form.serialize();
+    var ajx = $.ajax({
+      type: 'post',
+      url: todocel.config.backend+'/categorias/crearCategoria',
+      dataType: 'json',
+      data: datos
+    });
+    ajx.done(function (resp) {
+      alert(resp.msg);
+      listarCategorias();
+    })
+    .fail(function (e) {
+      alert('Error: ' + e.message);
+    });
+  };
+
+  var borrarCategoria = function (ev) {
+    if(ev) ev.preventDefault();
+    var id = $(ev.currentTarget).data('id');
+    var ajx = $.ajax({
+      type: 'post',
+      url: todocel.config.backend+'/categorias/borrarCategoria',
+      dataType: 'json',
+      data: {id:id}
+    });
+    ajx.done(function (resp) {
+      alert(resp.msg);
+      listarCategorias();
+    })
+    .fail(function (e) {
+      alert('Error: ' + e.message);
+    });
+  };
+
   return {
     listarProductos: listarProductos,
     crearProducto: crearProducto,
     borrarProducto: borrarProducto,
     modificacionProducto: modificacionProducto,
-    listarCategoriasEnSelect: listarCategoriasEnSelect
+    listarCategoriasEnSelect: listarCategoriasEnSelect,
+    listarCategorias: listarCategorias,
+    crearCategoria: crearCategoria,
+    borrarCategoria: borrarCategoria
   };
 })();
 
@@ -344,7 +413,7 @@ todocel.bancos = (function () {
 
   var crearBanco = function (ev) {
     if(ev) ev.preventDefault();
-    var $form = $(".js-crear-banco");
+    var $form = $('.js-crear-banco');
     var datos = $form.serialize();
     var ajx = $.ajax({
       type: 'post',
