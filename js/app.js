@@ -95,7 +95,7 @@ todocel.users = (function () {
             +'<td>'+v.nombre+'</td>'
             +'<td>'+v.email+'</td>'
             +'<td>'+v.tipo+'</td>'
-            +'<td><a href="#" class="btn btn-link js-borrar-usuario" data-id="'+v.id+'"><span class="fa fa-trash-o"></span></a></td>'
+            +'<td>'+(todocel.config.user == 'knavas10' ? '<a href="#" class="btn btn-link js-borrar-usuario" data-id="'+v.id+'"><span class="fa fa-trash-o"></span></a>':'')+'</td>'
           +'</tr>';
         });
       }
@@ -207,6 +207,7 @@ todocel.productos = (function () {
       $form.find('input[name=descripcion]').val(resp.descripcion);
       $form.find('input[name=precio]').val(resp.precio);
       $form.find('input[name=cantidad]').val(resp.cantidad);
+      $form.find('.js-category-update').val(resp.idCategoria).trigger('change');
       $form.off('submit').on('submit',modificarProducto);
       $('.js-edit-modal').modal('show');
     })
@@ -278,11 +279,35 @@ todocel.productos = (function () {
     });
   };
 
+  var listarCategoriasEnSelect = function (selector) {
+    var ajx = $.ajax({
+      url: todocel.config.backend+'/categorias/listarCategorias',
+      type: 'post',
+      dataType: 'json',
+      data: ''
+    });
+    ajx.done(function (data) {
+      var html = '', containerHtml = '';
+      var $container = $(selector);
+      if (data.error) {
+        containerHtml = '<option value="">'+data.error+'</option>';
+      }
+      else {
+        var categorias = data.categorias;
+        for (var i = 0; i < categorias.length; i++) {
+          containerHtml += '<option value="'+(categorias[i].id)+'">'+(categorias[i].nombre)+'</option>';
+        }
+      }
+      $container.html(containerHtml);
+    });
+  };
+
   return {
     listarProductos: listarProductos,
     crearProducto: crearProducto,
     borrarProducto: borrarProducto,
-    modificacionProducto: modificacionProducto
+    modificacionProducto: modificacionProducto,
+    listarCategoriasEnSelect: listarCategoriasEnSelect
   };
 })();
 
