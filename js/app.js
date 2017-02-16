@@ -1,6 +1,7 @@
 var todocel = (function () {
   var config = {
     $document: $(document),
+    // backend: '//localhost/TodoCel',
     backend: 'https://todocel.herokuapp.com',
     user: window.localStorage.getItem('nickname')
   };
@@ -210,6 +211,9 @@ todocel.productos = (function () {
       $form.find('input[name=precio]').val(resp.precio);
       $form.find('input[name=cantidad]').val(resp.cantidad);
       $form.find('.js-category-update').val(resp.idCategoria).trigger('change');
+      setTimeout(function () {
+        $form.find('.js-subcategory-update').val(resp.idSubcategoria).trigger('change');
+      },1500);
       $form.off('submit').on('submit',modificarProducto);
       $('.js-edit-modal').modal('show');
     })
@@ -283,7 +287,7 @@ todocel.productos = (function () {
 
   var listarCategoriasEnSelect = function (selector,includeBlank) {
     var ajx = $.ajax({
-      url: todocel.config.backend+'/categorias/listarCategorias',
+      url: todocel.config.backend+'/categorias/listarCategoriasPrincipales',
       type: 'post',
       dataType: 'json',
       data: ''
@@ -292,13 +296,47 @@ todocel.productos = (function () {
       var html = '', containerHtml = '';
       var $container = $(selector);
       if (data.error) {
-        containerHtml = '<option value="">'+data.error+'</option>';
+        containerHtml = '<option value="0">'+data.error+'</option>';
       }
       else {
         if (includeBlank) {
           containerHtml = '<option value="0">Ninguna</option>';
         }
         var categorias = data.categorias;
+        for (var i = 0; i < categorias.length; i++) {
+          containerHtml += '<option value="'+(categorias[i].id)+'">'+(categorias[i].nombre)+'</option>';
+        }
+      }
+      $container.html(containerHtml);
+      $container.off('change').on('change',function (ev) {
+        var element = ev.target;
+        var id = element.value;
+        if (id > 0) {
+          listarSubCategoriasEnSelect(selector+'-subcategory',id,includeBlank);
+        }
+      });
+      $container.trigger('change');
+    });
+  };
+
+  var listarSubCategoriasEnSelect = function (selector,idCategoria,includeBlank) {
+    var ajx = $.ajax({
+      url: todocel.config.backend+'/categorias/listarSubcategorias',
+      type: 'post',
+      dataType: 'json',
+      data: {id: idCategoria}
+    });
+    ajx.done(function (data) {
+      var html = '', containerHtml = '';
+      var $container = $(selector);
+      if (data.error) {
+        containerHtml = '<option value="0">'+data.error+'</option>';
+      }
+      else {
+        if (includeBlank) {
+          containerHtml = '<option value="0">Ninguna</option>';
+        }
+        var categorias = data.subcategorias;
         for (var i = 0; i < categorias.length; i++) {
           containerHtml += '<option value="'+(categorias[i].id)+'">'+(categorias[i].nombre)+'</option>';
         }
