@@ -63,6 +63,10 @@ http://www.templatemo.com/preview/templatemo_415_dashboard
                         <label for="nombre" class="control-label">Nombre</label>
                         <input type="text" class="form-control" id="nombre" name="nombre" value="">
                       </div>
+                      <div class="col-md-6">
+                        <label for="padre" class="control-label">Categoria padre</label>
+                        <select class="form-control js-category" name="idPadre"></select>
+                      </div>
                     </div>
                     <div class="row">
                       <div class="col-md-6">
@@ -78,6 +82,7 @@ http://www.templatemo.com/preview/templatemo_415_dashboard
                         <tr>
                           <th>#</th>
                           <th>Nombre</th>
+                          <th>Cat. padre</th>
                           <th>Eliminar</th>
                         </tr>
                       </thead>
@@ -125,6 +130,7 @@ http://www.templatemo.com/preview/templatemo_415_dashboard
   <script>
     $('#tabs').tab();
     todocel.productos.listarCategorias();
+    todocel.productos.listarCategoriasEnSelect('.js-category',true);
   </script>
 </body>
 </html>

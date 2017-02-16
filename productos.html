@@ -2,7 +2,7 @@
 <head>
   <meta charset="utf-8">
   <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><![endif]-->
-  <title>Waoo - Admin - Productos</title>
+  <title>Todocel - Admin - Productos</title>
   <meta name="keywords" content="" />
   <meta name="description" content="" />
   <meta name="viewport" content="width=device-width">
@@ -16,7 +16,7 @@ http://www.templatemo.com/preview/templatemo_415_dashboard
   <div id="main-wrapper">
     <div class="navbar navbar-inverse" role="navigation">
       <div class="navbar-header">
-        <div class="logo"><h1>Waoo - Admin - Productos</h1></div>
+        <div class="logo"><h1>Todocel - Admin - Productos</h1></div>
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
           <span class="sr-only">Toggle navigation</span>
           <span class="icon-bar"></span>
@@ -46,7 +46,7 @@ http://www.templatemo.com/preview/templatemo_415_dashboard
             <li class="active">Productos</li>
             <li><a href="reports.html">Reportes</a></li>
           </ol>
-          <h1>Waoo - Admin Productos</h1>
+          <h1>Todocel - Admin Productos</h1>
 
           <div class="row">
             <div class="col-md-12">
@@ -86,6 +86,12 @@ http://www.templatemo.com/preview/templatemo_415_dashboard
                       <div class="col-md-6">
                         <label for="nombre" class="control-label">Categor&iacute;a</label>
                         <select class="form-control js-category" name="categoria"></select>
+                      </div>
+                    </div>
+                    <div class="row margin-bottom-15">
+                      <div class="col-md-6">
+                        <label for="nombre" class="control-label">Subcategor&iacute;a</label>
+                        <select class="form-control js-category-subcategory" name="subcategoria"></select>
                       </div>
                     </div>
                     <div class="row margin-bottom-15">
@@ -176,7 +182,13 @@ http://www.templatemo.com/preview/templatemo_415_dashboard
                 <div class="row margin-bottom-15">
                   <div class="col-md-6">
                     <label for="nombre" class="control-label">Categor&iacute;a</label>
-                    <select class="form-control js-category js-category-update" name="categoria"></select>
+                    <select class="form-control js-category2 js-category-update" name="categoria"></select>
+                  </div>
+                </div>
+                <div class="row margin-bottom-15">
+                  <div class="col-md-6">
+                    <label for="nombre" class="control-label">Subcategor&iacute;a</label>
+                    <select class="form-control js-category2-subcategory js-subcategory-update" name="subcategoria"></select>
                   </div>
                 </div>
                 <div class="row margin-bottom-15">
@@ -199,7 +211,7 @@ http://www.templatemo.com/preview/templatemo_415_dashboard
 
       <footer class="templatemo-footer">
         <div class="templatemo-copyright">
-          <p>Copyright &copy; 2016 Waoo</p>
+          <p>Copyright &copy; 2016 Todocel</p>
         </div>
       </footer>
     </div>
@@ -216,6 +228,7 @@ http://www.templatemo.com/preview/templatemo_415_dashboard
     $('#tabs').tab();
     todocel.productos.listarProductos();
     todocel.productos.listarCategoriasEnSelect('.js-category');
+    todocel.productos.listarCategoriasEnSelect('.js-category2');
   </script>
 </body>
 </html>
