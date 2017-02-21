@@ -207,7 +207,7 @@ todocel.productos = (function () {
       var $form = $('.js-actualizar-producto');
       $form.find('input[name=id]').val(resp.id);
       $form.find('input[name=nombre]').val(resp.nombre);
-      $form.find('input[name=descripcion]').val(resp.descripcion);
+      $form.find('textarea[name=descripcion]').val(resp.descripcion);
       $form.find('input[name=precio]').val(resp.precio);
       $form.find('input[name=cantidad]').val(resp.cantidad);
       $form.find('.js-category-update').val(resp.idCategoria).trigger('change');
