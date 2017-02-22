@@ -375,13 +375,16 @@ todocel.productos = (function () {
 
   var crearCategoria = function (ev) {
     if(ev) ev.preventDefault();
-    var $form = $('.js-crear-categoria');
-    var datos = $form.serialize();
+    var formData = new FormData( $('.js-crear-categoria')[0] );
     var ajx = $.ajax({
       type: 'post',
       url: todocel.config.backend+'/categorias/crearCategoria',
       dataType: 'json',
-      data: datos
+      data: formData,
+      async : false,
+      cache : false,
+      contentType : false,
+      processData : false
     });
     ajx.done(function (resp) {
       alert(resp.msg);
