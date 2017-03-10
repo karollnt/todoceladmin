@@ -27,7 +27,8 @@ var todocel = (function () {
       .on('click','.js-borrar-producto',todocel.productos.borrarProducto)
       .on('click','.js-borrar-categoria',todocel.productos.borrarCategoria)
       .on('click','.js-buscar-ventas',todocel.ventas.buscarVentas)
-      .on('click','.js-ver-detalle',todocel.ventas.detalleVenta);
+      .on('click','.js-ver-detalle',todocel.ventas.detalleVenta)
+      .on('click','.js-change-order-status',todocel.ventas.cambiarEstadoVenta);
   };
   return {
     init: init,
@@ -532,7 +533,7 @@ todocel.ventas = (function () {
             +'<td>'+v.fecha+'</td>'
             +'<td>'+v.nombre+'</td>'
             +'<td class="text-right">$'+v.valor+'</td>'
-            +'<td><a href="#" class="btn btn-link js-ver-detalle" data-id="'+(v.id)+'"><span class="fa fa-search"></span></a></td>'
+            +'<td><a href="#" class="btn btn-link js-ver-detalle" data-id="'+(v.id)+'" data-type="'+(v.tipo)+'"><span class="fa fa-search"></span></a></td>'
           +'</tr>';
         });
         html += '<tr><td colspan="3">Total</td><td class="text-right">$'+total+'</td><td></td></tr>';
@@ -548,22 +549,28 @@ todocel.ventas = (function () {
     ev.preventDefault();
     var element = ev.currentTarget;
     var orderId = element.dataset.id;
+    var orderType = element.dataset.type;
     var $orderContainer = $('.js-detalle-venta');
     $orderContainer.html('');
     var ajx = $.ajax({
       url: todocel.config.backend+'/ventas/detalleOrden',
       type: 'post',
       dataType: 'json',
-      data: {id: orderId}
+      data: {id: orderId, tipo: orderType}
     });
     ajx.done(function (resp) {
       var html = '';
-      var source, template;
+      var source, template, order;
       if (resp.status == 200) {
         html = '';
+        order = resp.msg;
+        order.tieneComprobante = false;
+        if ((order.comprobante).toLowerCase() != '') {
+          order.tieneComprobante = true;
+        }
         source = $('#orderDetail').html();
         template = Handlebars.compile(source);
-        html = template(resp.msg);
+        html = template(order);
         $orderContainer.html(html);
         $('.js-detalle-modal').modal('show');
       }
@@ -576,11 +583,36 @@ todocel.ventas = (function () {
     });
   };
 
+  var cambiarEstadoVenta = function (ev) {
+    var elem = ev.target;
+    var id = elem.dataset.id;
+    var tipo = elem.dataset.type;
+    var estado = $('.js-order-status').val();
+    var controlador = 'actualizarEstadoVenta';
+
+    if (tipo.toLowerCase() == 'efectivo') {
+      controlador = 'actualizarEstadoVentaEfectivo';
+    }
+    var ajx = $.ajax({
+      url: todocel.config.backend+'/ventas/'+controlador,
+      type: 'post',
+      dataType: 'json',
+      data: {id: id, estado: estado}
+    });
+    ajx.done(function (resp) {
+      alert(resp.msg);
+    })
+    .fail(function (e) {
+      alert('Error: ' + e.message);
+    });
+  };
+
   return {
     init: init,
     listarVentasPeriodo: listarVentasPeriodo,
     detalleVenta: detalleVenta,
-    buscarVentas: buscarVentas
+    buscarVentas: buscarVentas,
+    cambiarEstadoVenta: cambiarEstadoVenta
   };
 })();
 
