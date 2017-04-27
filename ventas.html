@@ -132,15 +132,30 @@ http://www.templatemo.com/preview/templatemo_415_dashboard
   </script>
 
   <script id="orderDetail" type="text/x-handlebars-template">
-    <h4>Orden {{idVenta}}</h4>
+    <h4>Orden {{numero}}</h4>
     <p>
       Empresa: {{empresa}}<br>
       Fecha: {{fecha}}<br>
       Direccion: {{direccion}}<br>
       Email: {{email}}<br>
       Tel&eacute;fono: {{telefono}}<br>
-      Valor: ${{valor}}
+      Valor: ${{valor}}<br>
+      Estado: {{estado}}
+      <div class="margin-bottom-15">
+        <select class="js-order-status">
+          <<option value="0">Pendiente</option>
+          <<option value="1">Pagado</option>
+          <<option value="2">Esperando confirmaci&oacute;n</option>
+          <<option value="3">Rechazado</option>
+        <select>
+        <button data-id="{{idVenta}}" data-type="{{tipo}}" class="js-change-order-status">Cambiar estado</button>
+      </div>
     </p>
+    {{#if tieneComprobante}}
+      <div class="margin-bottom-15">
+        <a href="{{comprobante}}" target="_blank">Ver/Descargar soporte</a>
+      </div>
+    {{/if}}
     <div class="margin-bottom-15 table-responsive">
       <table class="table table-bordered table-condensed">
         <thead>
